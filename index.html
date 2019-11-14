@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Testing GIPHY API</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    
+    <div class="container">
+        <h1>All the Funnies</h1>
+
+    <!-- ARRAY -->
+        <div id="comedy-buttons"></div>
+
+    <!-- SEARCH BAR -->
+    <div id="input-box" class="form-group">
+        <form id="form">
+          <label for="input">Search for a comedy</label>
+          <input type="text" id="input"><br/>
+          <input id="add-show" type="submit" value="Submit">
+        </form>
+    </div>
+    <!-- POPULATED GIFS -->
+    <div id="populated-gifs"></div>
+
+    </div> <!-- ENDS CONTAINER -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- MAIN GAME LOGIC -->
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
+</body>
+</html>
