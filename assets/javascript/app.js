@@ -1,53 +1,81 @@
 $(document).ready(function(){
 
-    // Array of initial buttons
-    var preselectedComedies = ["The Office", "Catastrophe", "Parks and Rec", "Arrested Development", "Brooklyn 99", "SNL", "Silicon Valley", "30 Rock", "The Last Man on Earth", "Mindy Project"];
+// Array of initial buttons
+  var preselectedComedies = ["The Office", "Catastrophe", "Parks and Rec", "Arrested Development", "Brooklyn 99", "SNL", "Silicon Valley", "30 Rock", "Last Man on Earth", "Mindy Project"];
 
-    // AJAX - GIPHY call using the GET method
-     var queryURL = "https://api.giphy.com/v1/gifs/trending?api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9";
+  // displayComedy function re-renders the HTML to display the appropriate content
+  function displayComedy() {
 
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    }).then(function(response) {
-      console.log(response);
-    });
+    var comedy = $(this).attr("data-name");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+    comedy + "&api_key=niCgzQKH22tQxcNe0XbYEBVKOeFaKBUp&limit=10";
 
-    
-    // Create a loop that appends a button for each string in the array
+  // AJAX - GIPHY call using the GET method
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).done(function(response){
+    $("#populated-gifs").empty();
+
+    var results = response.data;
+    console.log(response);
     for(var i = 0; i < results.length; i++) {
-      var comediesDiv = $("<div>");
-    };
-         
-    // Display giphy
-    comediesDiv.prepend(giphyeImage);
-    $("#populated-gifs").prepend(comediesDiv);
-    
-    // On click, page should grab 10 static, non-animated gif images
 
-    // When user clicks a still GIPHY, gif should animate. 
-    var giphy = $("<img>");
-   
-    
-    // When user clicks a moving gif, it should stop animating.
-    $(".giphy").on("click", function() {
-      var state = $(this).attr("data-state");
-      console.log(state);
-    });
-
-    // Add a rating to each gif
+  // Creates a div to hold the comedy
+    var comedyDiv = $("<div>");
+        
+  // Add a rating to each gif
     var rating = results[i].rating;
-    var p = $("<h2>").text("Rating: " + rating);
-    giphy.prepend(p);
+    var viewRating = $("<p>").text("Rating: " + rating);
+    comedyDiv.prepend(viewRating);
 
-    // When a user searches using the input form, add the input to the array.
+// When user clicks a still GIPHY, gif should animate.
+// When user clicks a moving gif, it should stop animating. 
+    var giphy = $("<img>");
+    giphy.attr("src", results[i].images.fixed_height_still.url);
+    giphy.attr("data-still", results[i].images.fixed_height_still.url);
+    giphy.attr("data-animate", results[i].images.fixed_height.url);
+    giphy.attr("data-state", "still");
+    comedyDiv.prepend(giphy);
 
-    // Call each topic chosen by the user and make a button on the page. (Like Activity 6.7)
+// Display giphy    
+    $("#populated-gifs").prepend(comedyDiv); // Creates a div to hold the comedy
+  }
 
-    //    * Be sure to read about these GIPHY parameters (hint, hint):
-    //      * `q`
-    //      * `limit`
-    //      * `rating`
-    
-    
+   
+      $(".giphy").on("click", function() {
+        var state = $(this).attr("data-state");
+        console.log(state);
+
+        if (state === "still") {
+          $(this).attr("src", $(this).attr("data-animate"));
+          $(this).attr("data-state", "animate");
+        } else {
+          $(this).attr("src", $(this).attr("data-still"));
+          $(this).attr("data-state", "still");
+        }
+      });
+    });        
+  }
+
+// Populate buttons to appear on the page
+  function renderButtons() {
+    $("#populated-gifs").empty();
+    for(var i = 0; i < preselectedComedies.length; i++) {
+      var comedyAdd = $("<button>");
+      comedyAdd.addClass("comedy");
+      comedyAdd.attr("data-name", preselectedComedies[i]);
+      comedyAdd.text(preselectedComedies[i]);
+      $("#populated-gifs").append(comedyAdd);
+    }
+  }
+
+  $("#add-show").on("click", function(event){
+  event.preventDefault();
+  var comedy = $("#input").val().trim();
+  preselectedComedies.push(comedy);
+  renderButtons();
+  });
+  $(document).on("click", ".comedy", displayComedy);
+  renderButtons();
 });
