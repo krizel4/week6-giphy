@@ -9,6 +9,8 @@ If you'd like to populate a list of other comedies not listed in the pre-selecte
 
 Each gif will also have a rating available.
 
+To view the deployed page, visit the link [here](https://krizel4.github.io/week6-giphy/)
+
 ## Built With
 
 * HTML5
