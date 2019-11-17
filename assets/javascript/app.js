@@ -29,22 +29,21 @@ $(document).ready(function () {
         var viewRating = $("<p>").text("Rating: " + rating);
         comedyDiv.prepend(viewRating);
 
-// When user clicks a still GIPHY, gif should animate.
-// When user clicks a moving gif, it should stop animating. 
+// Display giphy    
         var giphy = $("<img>");
         giphy.attr("src", results[i].images.fixed_height_still.url);
         giphy.attr("data-still", results[i].images.fixed_height_still.url);
         giphy.attr("data-animate", results[i].images.fixed_height.url);
         giphy.attr("data-state", "still");
         comedyDiv.prepend(giphy);
-
-// Display giphy    
         $("#populated-gifs").prepend(comedyDiv); // Creates a div to hold the comedy
       }
       $(".giphy").on("click", function () {
         var state = $(this).attr("data-state");
         console.log(state);
 
+// When user clicks a still GIPHY, gif should animate.
+// When user clicks a moving gif, it should stop animating. 
         if (state === "still") {
           $(this).attr("src", $(this).attr("data-animate"));
           $(this).attr("data-state", "animate");
